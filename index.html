@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'self'" />
+  <meta name="referrer" content="no-referrer-when-downgrade" />
   <title>🐘 Ellie's Future Fund!</title>
   <meta property="og:title" content="Ellie's Future Fund 🐘" />
   <meta property="og:description" content="Help Eleanor Rae Eaglin reach her college savings goal. Every gift grows over time!" />
@@ -16,7 +18,10 @@
   <meta name="twitter:description" content="Help Eleanor Rae Eaglin reach her college savings goal. Every gift grows over time!" />
   <meta name="twitter:image" content="https://ellieraeeaglin.com/og.jpg?v=2" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script type="module" src="./src/main.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -192,6 +197,7 @@
       animation: bounce 2.2s ease-in-out infinite;
       filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
       margin-bottom: 0.6rem;
+      will-change: transform;
     }
 
     .card-header h1 {
@@ -667,7 +673,7 @@
 
         <div class="amount-row">
           <span class="dollar-sign">$</span>
-          <input type="number" id="amountInput" min="0" max="99999" step="25" value="100" inputmode="numeric" />
+          <input type="number" id="amountInput" min="0" max="99999" step="25" value="100" inputmode="numeric" autocomplete="off" />
         </div>
 
         <div class="preset-btns" id="presetBtns">
@@ -734,271 +740,5 @@
 
     <div class="card-footer">🐘 🌸 🐘 🌸 🐘</div>
   </div>
-
-  <script>
-  (function () {
-    var RATE = 0.09;
-    var COLLEGE_YEAR = 2043;
-    var START_YEAR = new Date().getFullYear();
-    var YEARS = Math.max(0, COLLEGE_YEAR - START_YEAR);
-    var ANIM_MS = 900;
-
-    var slider = document.getElementById('giftSlider');
-    var amtInput = document.getElementById('amountInput');
-    var resultEl = document.getElementById('resultValue');
-    var resultYearEl = document.getElementById('resultYear');
-    var yearsAwayEl = document.getElementById('yearsAway');
-    var canvas = document.getElementById('growthChart');
-    var ctx = canvas.getContext('2d');
-    var overlay = document.getElementById('overlay');
-
-    resultYearEl.textContent = 'by ' + COLLEGE_YEAR + ' 🎓';
-    yearsAwayEl.textContent = YEARS > 0 ? YEARS + ' years away!' : 'Starting now!';
-
-    var animFrame = null;
-    var animStart = null;
-    var currentPrincipal = 100;
-
-    document.getElementById('openNote').addEventListener('click', function () {
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
-
-    function closeOverlay() {
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('closeNote').addEventListener('click', closeOverlay);
-
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) closeOverlay();
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeOverlay();
-    });
-
-    function fmt(n) {
-      return '$' + Math.round(n).toLocaleString();
-    }
-
-    function fmtAxis(n) {
-      if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
-      if (n >= 100000) return '$' + (n / 1000).toFixed(0) + 'k';
-      if (n >= 10000)  return '$' + (n / 1000).toFixed(0) + 'k';
-      if (n >= 1000)   return '$' + (n / 1000).toFixed(1) + 'k';
-      return '$' + Math.round(n);
-    }
-
-    function calcData(p) {
-      var d = [];
-      for (var i = 0; i <= YEARS; i++) {
-        d.push(p * Math.pow(1 + RATE, i));
-      }
-      return d;
-    }
-
-    var FIXED_MAX = 1000 * Math.pow(1 + RATE, YEARS);
-
-    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-
-    function makeLabelIdxs() {
-      if (YEARS === 0) return [0];
-      var count = Math.min(5, YEARS + 1);
-      var idxs = [];
-      for (var i = 0; i < count; i++) {
-        idxs.push(Math.round(i * YEARS / (count - 1)));
-      }
-      return idxs;
-    }
-
-    function drawChart(data, progress) {
-      var dpr = window.devicePixelRatio || 1;
-      var W = canvas.offsetWidth;
-      var H = canvas.offsetHeight;
-      if (W === 0) return;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      var pL = 48, pR = 12, pT = 42, pB = 32;
-      var cW = W - pL - pR;
-      var cH = H - pT - pB;
-      var maxVal = Math.max(FIXED_MAX, data[YEARS]) || 1;
-
-      function xp(i) { return YEARS === 0 ? pL + cW / 2 : pL + (i / YEARS) * cW; }
-      function yp(v) { return pT + cH - (v / maxVal) * cH * progress; }
-
-      ctx.clearRect(0, 0, W, H);
-
-      if (data[YEARS] === 0) return;
-
-      var ticks = [0.25, 0.5, 0.75, 1];
-      ctx.setLineDash([4, 4]);
-      ctx.lineWidth = 1;
-      ctx.font = '10px Nunito, sans-serif';
-      ctx.textAlign = 'right';
-      ctx.fillStyle = '#A78BFA';
-      ticks.forEach(function (t) {
-        var v = maxVal * t;
-        var y = pT + cH - t * cH;
-        ctx.beginPath();
-        ctx.moveTo(pL, y);
-        ctx.lineTo(pL + cW, y);
-        ctx.strokeStyle = 'rgba(196,181,253,0.4)';
-        ctx.stroke();
-        ctx.fillText(fmtAxis(v), pL - 4, y + 4);
-      });
-      ctx.setLineDash([]);
-
-      var pts = data.map(function (v, i) { return { x: xp(i), y: yp(v) }; });
-
-      function smoothPath() {
-        ctx.moveTo(pts[0].x, pts[0].y);
-        for (var i = 1; i < pts.length - 1; i++) {
-          var mx = (pts[i].x + pts[i + 1].x) / 2;
-          var my = (pts[i].y + pts[i + 1].y) / 2;
-          ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx, my);
-        }
-        ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
-      }
-
-      var fill = ctx.createLinearGradient(0, pT, 0, pT + cH);
-      fill.addColorStop(0, 'rgba(124,58,237,0.4)');
-      fill.addColorStop(1, 'rgba(236,72,153,0.04)');
-
-      ctx.beginPath();
-      smoothPath();
-      ctx.lineTo(pts[pts.length - 1].x, pT + cH);
-      ctx.lineTo(pts[0].x, pT + cH);
-      ctx.closePath();
-      ctx.fillStyle = fill;
-      ctx.fill();
-
-      var stroke = ctx.createLinearGradient(pL, 0, pL + cW, 0);
-      stroke.addColorStop(0, '#7C3AED');
-      stroke.addColorStop(1, '#EC4899');
-
-      ctx.beginPath();
-      smoothPath();
-      ctx.strokeStyle = stroke;
-      ctx.lineWidth = 2.5;
-      ctx.lineJoin = 'round';
-      ctx.stroke();
-
-      var labelIdxs = makeLabelIdxs();
-      ctx.font = 'bold 10px Nunito, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillStyle = '#8B5CF6';
-      labelIdxs.forEach(function (i) {
-        ctx.fillText(START_YEAR + i, pts[i].x, pT + cH + 22);
-      });
-
-      var ep = pts[pts.length - 1];
-      ctx.beginPath();
-      ctx.arc(ep.x, ep.y, 6, 0, Math.PI * 2);
-      ctx.fillStyle = '#EC4899';
-      ctx.fill();
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 2.5;
-      ctx.stroke();
-
-      if (progress >= 1) {
-        var calloutW = 86;
-        var calloutH = 26;
-        var cx2 = Math.min(ep.x - calloutW / 2, W - pR - calloutW);
-        cx2 = Math.max(pL, cx2);
-        var cy2 = ep.y - calloutH - 10;
-        if (cy2 < 2) cy2 = ep.y + 14;
-        ctx.beginPath();
-        ctx.roundRect(cx2, cy2, calloutW, calloutH, 6);
-        ctx.fillStyle = '#EC4899';
-        ctx.fill();
-        ctx.font = 'bold 11px Nunito, sans-serif';
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.fillText(fmt(data[YEARS]), cx2 + calloutW / 2, cy2 + 17);
-      }
-    }
-
-    function run(p, animate) {
-      var data = calcData(p);
-      resultEl.textContent = fmt(data[YEARS]);
-      if (animFrame) cancelAnimationFrame(animFrame);
-      if (!animate) {
-        drawChart(data, 1);
-        return;
-      }
-      animStart = null;
-      animFrame = requestAnimationFrame(function tick(ts) {
-        if (!animStart) animStart = ts;
-        var pct = Math.min((ts - animStart) / ANIM_MS, 1);
-        drawChart(data, easeOut(pct));
-        if (pct < 1) animFrame = requestAnimationFrame(tick);
-      });
-    }
-
-    var presetBtns = document.querySelectorAll('.preset-btn');
-
-    function syncSlider(val) {
-      var pct = (Math.min(val, 1000) / 1000) * 100;
-      slider.style.setProperty('--pct', Math.max(0, pct) + '%');
-    }
-
-    function syncPresets(val) {
-      presetBtns.forEach(function (btn) {
-        btn.classList.toggle('active', parseInt(btn.dataset.val, 10) === val);
-      });
-    }
-
-    presetBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var v = parseInt(btn.dataset.val, 10);
-        amtInput.value = v;
-        slider.value = Math.min(v, 1000);
-        syncSlider(v);
-        syncPresets(v);
-        currentPrincipal = v;
-        run(v, false);
-      });
-    });
-
-    slider.addEventListener('input', function () {
-      var v = parseInt(slider.value, 10);
-      amtInput.value = v;
-      syncSlider(v);
-      syncPresets(v);
-      currentPrincipal = v;
-      run(v, false);
-    });
-
-    amtInput.addEventListener('input', function () {
-      var v = parseInt(amtInput.value, 10);
-      if (isNaN(v) || v < 0) return;
-      slider.value = Math.min(v, 1000);
-      syncSlider(v);
-      syncPresets(v);
-      currentPrincipal = v;
-      run(v, false);
-    });
-
-    amtInput.addEventListener('blur', function () {
-      var v = Math.max(0, parseInt(amtInput.value, 10) || 0);
-      amtInput.value = v;
-      slider.value = Math.min(v, 1000);
-      syncSlider(v);
-      syncPresets(v);
-      currentPrincipal = v;
-      run(v, false);
-    });
-
-    window.addEventListener('resize', function () { run(currentPrincipal, false); });
-
-    syncSlider(100);
-    syncPresets(100);
-    run(100, true);
-  }());
-  </script>
 </body>
 </html>
