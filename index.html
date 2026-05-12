@@ -366,6 +366,35 @@
       border: 3px solid #fff;
     }
 
+    .preset-btns {
+      display: flex;
+      gap: 0.4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .preset-btn {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.9rem;
+      color: #7C3AED;
+      background: #fff;
+      border: 2px solid #C4B5FD;
+      border-radius: 50px;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s, color 0.12s;
+    }
+
+    .preset-btn:active,
+    .preset-btn.active {
+      background: linear-gradient(135deg, #7C3AED, #C026D3);
+      border-color: transparent;
+      color: #fff;
+    }
+
     .slider-labels {
       display: flex;
       justify-content: space-between;
@@ -551,6 +580,14 @@
         <div class="amount-row">
           <span class="dollar-sign">$</span>
           <input type="number" id="amountInput" min="0" max="99999" step="25" value="100" inputmode="numeric" />
+        </div>
+
+        <div class="preset-btns" id="presetBtns">
+          <button class="preset-btn" data-val="25">$25</button>
+          <button class="preset-btn" data-val="50">$50</button>
+          <button class="preset-btn active" data-val="100">$100</button>
+          <button class="preset-btn" data-val="250">$250</button>
+          <button class="preset-btn" data-val="500">$500</button>
         </div>
 
         <div class="slider-wrap">
@@ -814,15 +851,36 @@
       });
     }
 
+    var presetBtns = document.querySelectorAll('.preset-btn');
+
     function syncSlider(val) {
       var pct = (Math.min(val, 1000) / 1000) * 100;
       slider.style.setProperty('--pct', Math.max(0, pct) + '%');
     }
 
+    function syncPresets(val) {
+      presetBtns.forEach(function (btn) {
+        btn.classList.toggle('active', parseInt(btn.dataset.val, 10) === val);
+      });
+    }
+
+    presetBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var v = parseInt(btn.dataset.val, 10);
+        amtInput.value = v;
+        slider.value = Math.min(v, 1000);
+        syncSlider(v);
+        syncPresets(v);
+        currentPrincipal = v;
+        run(v, false);
+      });
+    });
+
     slider.addEventListener('input', function () {
       var v = parseInt(slider.value, 10);
       amtInput.value = v;
       syncSlider(v);
+      syncPresets(v);
       currentPrincipal = v;
       run(v, false);
     });
@@ -832,6 +890,7 @@
       if (isNaN(v) || v < 0) return;
       slider.value = Math.min(v, 1000);
       syncSlider(v);
+      syncPresets(v);
       currentPrincipal = v;
       run(v, false);
     });
@@ -841,6 +900,7 @@
       amtInput.value = v;
       slider.value = Math.min(v, 1000);
       syncSlider(v);
+      syncPresets(v);
       currentPrincipal = v;
       run(v, false);
     });
@@ -848,6 +908,7 @@
     window.addEventListener('resize', function () { run(currentPrincipal, false); });
 
     syncSlider(100);
+    syncPresets(100);
     run(100, true);
   }());
   </script>
