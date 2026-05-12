@@ -3,254 +3,367 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eleanor Rae Eaglin's College Savings Plan</title>
+  <title>🐘 Ellie's Future Fund!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Georgia', serif;
-      background: linear-gradient(135deg, #fdf6f0 0%, #fce8d5 50%, #f5d7c0 100%);
-      padding: 2rem;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(160deg, #dcc6f7 0%, #f8c0dc 45%, #ffd9b3 100%);
+      padding: 1.5rem 1rem 3rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ghost elephants in background */
+    body::before, body::after {
+      position: fixed;
+      font-size: 12rem;
+      opacity: 0.05;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    body::before { content: '🐘'; top: -2rem; left: -3rem; transform: rotate(-15deg); }
+    body::after  { content: '🐘'; bottom: -3rem; right: -3rem; transform: rotate(10deg) scaleX(-1); }
+
+    /* Floating confetti */
+    @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(180deg)} }
+    @keyframes floatB { 0%,100%{transform:translateY(0) rotate(30deg)} 50%{transform:translateY(-26px) rotate(210deg)} }
+    @keyframes floatC { 0%,100%{transform:translateY(0) rotate(-10deg)} 50%{transform:translateY(-14px) rotate(170deg)} }
+
+    .sp { position:fixed; pointer-events:none; user-select:none; font-size:1.6rem; }
+    .sp1{top:8%;  left:4%;  animation:floatA 4s ease-in-out infinite;}
+    .sp2{top:18%; right:5%; animation:floatB 5s ease-in-out infinite;}
+    .sp3{top:55%; left:3%; animation:floatC 3.8s ease-in-out infinite;}
+    .sp4{top:72%; right:4%; animation:floatA 4.5s ease-in-out infinite 1s;}
+    .sp5{top:38%; right:2%; animation:floatB 6s ease-in-out infinite 0.5s;}
+    .sp6{top:85%; left:6%; animation:floatC 5s ease-in-out infinite 1.5s;}
+
+    /* Card */
+    @keyframes slideUp {
+      from{opacity:0;transform:translateY(40px)}
+      to  {opacity:1;transform:translateY(0)}
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.92);
-      border-radius: 24px;
-      box-shadow: 0 8px 40px rgba(180, 100, 50, 0.12);
-      max-width: 560px;
+      background: #fff;
+      border-radius: 36px;
+      box-shadow: 0 24px 70px rgba(112,40,220,0.22), 0 4px 24px rgba(0,0,0,0.06);
+      max-width: 480px;
       width: 100%;
-      padding: 3rem 2.5rem;
+      margin: 0 auto;
+      overflow: hidden;
+      animation: slideUp 0.65s cubic-bezier(.22,.68,0,1.2);
+    }
+
+    /* Header */
+    .card-header {
+      background: linear-gradient(135deg, #7C3AED 0%, #C026D3 60%, #EC4899 100%);
+      padding: 2.25rem 1.5rem 2rem;
       text-align: center;
+      position: relative;
     }
 
-    .star-row {
-      font-size: 2rem;
-      letter-spacing: 0.3rem;
-      margin-bottom: 1.5rem;
+    .card-header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 30px;
+      background: #fff;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     }
 
-    h1 {
-      font-size: 1.9rem;
-      color: #7a3b1e;
-      line-height: 1.25;
-      margin-bottom: 0.75rem;
+    @keyframes bounce {
+      0%,100%{transform:translateY(0) rotate(-5deg)}
+      30%{transform:translateY(-14px) rotate(5deg)}
+      60%{transform:translateY(-6px) rotate(-3deg)}
     }
 
-    h1 span { color: #c2622a; }
+    .ellie-top {
+      font-size: 5.5rem;
+      display: block;
+      animation: bounce 2.2s ease-in-out infinite;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
+      margin-bottom: 0.6rem;
+    }
 
-    .subtitle {
-      font-size: 1rem;
-      color: #9a6248;
-      margin-bottom: 2rem;
-      font-style: italic;
-      line-height: 1.5;
+    .card-header h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    }
+
+    .card-header .tagline {
+      color: rgba(255,255,255,0.88);
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-top: 0.6rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* Body */
+    .card-body { padding: 2rem 1.5rem; }
+
+    /* Photo */
+    .photo-wrap {
+      position: relative;
+      width: 170px;
+      margin: 0 auto 1.75rem;
     }
 
     .photo {
-      width: 180px;
-      height: 180px;
+      width: 170px;
+      height: 170px;
       object-fit: cover;
       border-radius: 50%;
-      border: 4px solid #f0cbb4;
-      margin: 0 auto 1.5rem;
+      border: 6px solid #C084FC;
       display: block;
-      box-shadow: 0 4px 20px rgba(180, 100, 50, 0.15);
+      box-shadow: 0 8px 32px rgba(124,58,237,0.28);
     }
 
-    .divider {
-      border: none;
-      border-top: 1px solid #f0cbb4;
-      margin: 0 auto 1.75rem;
-      width: 60%;
+    .photo-badge {
+      position: absolute;
+      bottom: 4px; right: -8px;
+      font-size: 2.2rem;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
     }
 
-    .thank-you {
-      font-size: 1.05rem;
-      color: #6b4534;
-      line-height: 1.7;
+    /* Thank-you box */
+    .thank-box {
+      background: linear-gradient(135deg, #F5F3FF, #FDF4FF);
+      border: 2px solid #DDD6FE;
+      border-radius: 22px;
+      padding: 1.25rem 1.5rem;
       margin-bottom: 1.75rem;
+      text-align: center;
+    }
+
+    .thank-box .greeting {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.35rem;
+      color: #6D28D9;
+      margin-bottom: 0.6rem;
+    }
+
+    .thank-box p {
+      font-size: 1rem;
+      color: #5B4B8A;
+      line-height: 1.65;
+    }
+
+    /* CTA */
+    @keyframes glow {
+      0%,100%{box-shadow:0 6px 24px rgba(124,58,237,0.45), 0 0 0 0 rgba(124,58,237,0.25)}
+      50%{box-shadow:0 10px 36px rgba(124,58,237,0.6), 0 0 0 14px rgba(124,58,237,0)}
     }
 
     .cta-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #c2622a, #e07b3a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      background: linear-gradient(135deg, #7C3AED, #C026D3, #EC4899);
+      background-size: 200% 200%;
       color: #fff;
       text-decoration: none;
-      font-family: 'Georgia', serif;
-      font-size: 1.1rem;
-      padding: 0.95rem 2.5rem;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      padding: 1.1rem 1.5rem;
       border-radius: 50px;
-      box-shadow: 0 4px 18px rgba(194, 98, 42, 0.35);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      letter-spacing: 0.02em;
+      animation: glow 2.5s ease-in-out infinite;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      letter-spacing: 0.03em;
+      min-height: 60px;
     }
 
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(194, 98, 42, 0.45);
+    .cta-btn:active { transform: scale(0.96); opacity: 0.92; }
+
+    .cta-sub {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #9CA3AF;
+      margin: 0.6rem 0 2rem;
+      font-weight: 600;
     }
 
-    .cta-btn:active { transform: translateY(0); }
+    /* Stats */
+    .section-heading {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: #7C3AED;
+      text-align: center;
+      margin-bottom: 0.9rem;
+    }
 
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin: 2rem 0;
+      gap: 0.85rem;
+      margin-bottom: 1.75rem;
     }
 
     .info-box {
-      background: #fdf6f0;
-      border: 1px solid #f0cbb4;
-      border-radius: 14px;
-      padding: 1.1rem 1rem;
+      background: linear-gradient(145deg, #F5F3FF, #FAF5FF);
+      border: 2px solid #C4B5FD;
+      border-radius: 20px;
+      padding: 1.1rem 0.75rem;
       text-align: center;
     }
 
-    .info-box .label {
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #b08070;
-      margin-bottom: 0.4rem;
+    .info-box .icon { font-size: 1.8rem; margin-bottom: 0.35rem; display: block; }
+    .info-box .val  { font-family: 'Fredoka One', cursive; font-size: 1.45rem; color: #6D28D9; }
+    .info-box .lbl  { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: #8B5CF6; margin-top: 0.15rem; }
+    .info-box .sub  { font-size: 0.78rem; color: #7C3AED; margin-top: 0.3rem; font-weight: 800; }
+
+    /* Fun sections */
+    .fun-section {
+      background: linear-gradient(145deg, #F5F3FF, #FDF4FF);
+      border: 2px solid #DDD6FE;
+      border-radius: 22px;
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1rem;
     }
 
-    .info-box .value {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #7a3b1e;
+    .fun-section .sh {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
     }
 
-    .info-box .sub {
-      font-size: 0.68rem;
-      color: #9a6248;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-top: 0.15rem;
+    .fun-section .sh-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .fun-section .sh-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: #6D28D9;
     }
 
-    .info-box .remaining {
-      font-size: 0.78rem;
-      color: #5a9e5a;
-      margin-top: 0.4rem;
-    }
+    .fun-section p { font-size: 0.92rem; color: #5B4B8A; line-height: 1.65; }
+    .fun-section .fq { font-weight: 800; color: #6D28D9; margin-bottom: 0.35rem; font-size: 0.93rem; }
 
-    .section {
-      margin: 1.25rem 0;
-      padding: 1.25rem 1.5rem;
-      background: #fdf6f0;
-      border: 1px solid #f0cbb4;
-      border-radius: 14px;
-      text-align: left;
-    }
-
-    .section .section-label {
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #b08070;
-      margin-bottom: 0.4rem;
-    }
-
-    .section .section-title {
-      font-size: 1.4rem;
-      color: #7a3b1e;
-      margin-bottom: 0.6rem;
-    }
-
-    .section p {
-      font-size: 0.9rem;
-      color: #6b4534;
-      line-height: 1.65;
-    }
-
-    .faq-q {
-      font-size: 0.92rem;
-      font-weight: bold;
-      color: #7a3b1e;
-      margin-bottom: 0.3rem;
-    }
-
+    /* Note */
     .note {
-      margin-top: 2rem;
-      font-size: 0.8rem;
-      color: #b08070;
+      margin-top: 1.75rem;
+      font-size: 0.77rem;
+      color: #B0A0C8;
       line-height: 1.6;
+      text-align: center;
     }
-
-    .note a { color: #c2622a; text-decoration: none; }
+    .note a { color: #8B5CF6; text-decoration: none; }
     .note a:hover { text-decoration: underline; }
 
-    @media (max-width: 420px) {
-      .card { padding: 2rem 1.5rem; }
-      .info-grid { grid-template-columns: 1fr; }
+    /* Footer strip */
+    .card-footer {
+      background: linear-gradient(135deg, #7C3AED, #C026D3, #EC4899);
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+      letter-spacing: 0.4rem;
+    }
+
+    @media (max-width: 380px) {
+      .card-body { padding: 1.75rem 1.1rem; }
+      .info-grid  { gap: 0.6rem; }
+      .cta-btn    { font-size: 1.3rem; }
     }
   </style>
 </head>
 <body>
+  <div class="sp sp1">⭐</div>
+  <div class="sp sp2">🌸</div>
+  <div class="sp sp3">✨</div>
+  <div class="sp sp4">💜</div>
+  <div class="sp sp5">🌟</div>
+  <div class="sp sp6">🎀</div>
+
   <div class="card">
-    <div class="star-row">&#127775; &#128149; &#127775;</div>
-    <h1><span>Eleanor Rae Eaglin's</span><br>College Savings Plan</h1>
-    <p class="subtitle">Gifts to Eleanor Rae Eaglin's 529 account can help reach an education savings goal faster.</p>
 
-    <img class="photo" src="IMG_4312.jpeg" alt="Eleanor Rae Eaglin" />
+    <div class="card-header">
+      <span class="ellie-top">🐘</span>
+      <h1>Eleanor Rae Eaglin's<br>College Savings Plan</h1>
+      <p class="tagline">🌟 Elephants never forget to invest in the future! 🌟</p>
+    </div>
 
-    <hr class="divider" />
+    <div class="card-body">
 
-    <p class="thank-you">
-      Thank you so much for your kind generosity.<br>
-      You help build a bright future for Eleanor Rae.
-    </p>
-
-    <a
-      class="cta-btn"
-      href="https://digital.fidelity.com/prgw/digital/familygifting/giveagift"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Give a Gift &rarr;
-    </a>
-
-    <div class="info-grid">
-      <div class="info-box">
-        <div class="label">Age &amp; Enrollment Year</div>
-        <div class="value">0 &nbsp;|&nbsp; 2043</div>
-        <div class="sub">Years Old &nbsp;|&nbsp; Starting College</div>
-        <div class="remaining">&#10003; 17 years remaining</div>
+      <div class="photo-wrap">
+        <img class="photo" src="IMG_4312.jpeg" alt="Eleanor Rae Eaglin" />
+        <span class="photo-badge">🐘</span>
       </div>
-      <div class="info-box">
-        <div class="label">Tax Considerations</div>
-        <div class="value">$19k+</div>
-        <div class="sub">Per Year</div>
-        <div class="remaining" style="color:#9a6248;font-size:0.72rem;">Consult a tax advisor for details.</div>
+
+      <div class="thank-box">
+        <div class="greeting">Family &amp; Friends! 🎉</div>
+        <p>
+          Gifts to Eleanor Rae Eaglin's 529 account can help reach her education savings goal faster.
+          Thank you so much for your kind generosity — you help build a bright future for Eleanor Rae!
+        </p>
       </div>
+
+      <a
+        class="cta-btn"
+        href="https://digital.fidelity.com/prgw/digital/familygifting/giveagift"
+        target="_blank"
+        rel="noopener noreferrer"
+      >🐘 Give a Gift! 🎁</a>
+      <p class="cta-sub">No account required &bull; Processed securely by Fidelity</p>
+
+      <p class="section-heading">📊 Ellie's Savings Snapshot</p>
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="icon">📅</span>
+          <div class="val">2043</div>
+          <div class="lbl">Starting College</div>
+          <div class="sub">17 years away!</div>
+        </div>
+        <div class="info-box">
+          <span class="icon">💰</span>
+          <div class="val">$19k+</div>
+          <div class="lbl">Gift limit / year</div>
+          <div class="sub">Tax-free gifting!</div>
+        </div>
+      </div>
+
+      <div class="fun-section">
+        <div class="sh">
+          <span class="sh-icon">🎓</span>
+          <span class="sh-title">529 Plan — What's Covered?</span>
+        </div>
+        <p>
+          Savings can be used for tuition, books, and other education-related expenses —
+          including private and public K&ndash;12 institutions.
+          Every dollar grows tax-free for Ellie's big adventure ahead!
+        </p>
+      </div>
+
+      <div class="fun-section">
+        <div class="sh">
+          <span class="sh-icon">❓</span>
+          <span class="sh-title">Gifting FAQs</span>
+        </div>
+        <p class="fq">What is an e-check?</p>
+        <p>
+          When gifting by electronic check, Fidelity will ask for your bank routing number,
+          account number, and some authentication info.
+          It's quick, safe, and trunk-ly appreciated! 🐘
+        </p>
+      </div>
+
+      <p class="note">
+        Gifts processed securely by
+        <a href="https://www.fidelity.com" target="_blank" rel="noopener noreferrer">Fidelity Investments</a>.
+        Please carefully consider the plan's investment objectives, risks, charges and expenses before investing.
+        Contact Fidelity for a free Fact Kit before you invest or send money.
+      </p>
+
     </div>
 
-    <div class="section">
-      <div class="section-label">Education Savings &bull; 529 Plan &bull; Expenses</div>
-      <div class="section-title">529 Plan</div>
-      <p>Savings can be used for tuition, books, and other education-related expenses. Savings may also be used for private, public (K&ndash;12) institutions.</p>
-    </div>
-
-    <div class="section">
-      <div class="section-label">Frequently Asked Questions &bull; Gifting Information</div>
-      <div class="section-title">FAQs</div>
-      <p class="faq-q">What is an e-check?</p>
-      <p>When gifting by electronic check, we ask for your bank routing number and account number as well as authentication information about yourself.</p>
-    </div>
-
-    <p class="note">
-      Gifts are processed securely by&nbsp;
-      <a href="https://www.fidelity.com" target="_blank" rel="noopener noreferrer">Fidelity Investments</a>.
-      No account required to contribute.
-      <br /><br />
-      Please carefully consider the plan's investment objectives, risks, charges and expenses before investing.
-      For this and other information on any 529 College Savings Plan managed by Fidelity, contact Fidelity for a free Fact Kit. Read it carefully before you invest or send money.
-    </p>
+    <div class="card-footer">🐘 🌸 🐘 🌸 🐘</div>
   </div>
 </body>
 </html>
