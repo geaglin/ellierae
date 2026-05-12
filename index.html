@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>🐘 Ellie's Future Fund!</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -10,9 +10,11 @@
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
       font-family: 'Nunito', sans-serif;
       background: linear-gradient(160deg, #dcc6f7 0%, #f8c0dc 45%, #ffd9b3 100%);
-      padding: 1.5rem 1rem 3rem;
+      padding: 1.5rem 1rem env(safe-area-inset-bottom, 3rem);
+      padding-bottom: max(3rem, env(safe-area-inset-bottom));
       overflow-x: hidden;
       position: relative;
     }
@@ -88,7 +90,7 @@
 
     .card-header h1 {
       font-family: 'Fredoka One', cursive;
-      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      font-size: clamp(1.5rem, 5vw, 2.1rem);
       color: #fff;
       line-height: 1.2;
       text-shadow: 0 2px 10px rgba(0,0,0,0.18);
@@ -96,7 +98,7 @@
 
     .card-header .tagline {
       color: rgba(255,255,255,0.88);
-      font-size: 0.92rem;
+      font-size: clamp(0.82rem, 3vw, 0.95rem);
       font-weight: 700;
       margin-top: 0.6rem;
       letter-spacing: 0.01em;
@@ -132,6 +134,8 @@
     }
 
     .cta-btn {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -141,13 +145,13 @@
       color: #fff;
       text-decoration: none;
       font-family: 'Fredoka One', cursive;
-      font-size: 1.5rem;
+      font-size: clamp(1.25rem, 5vw, 1.5rem);
       padding: 1.1rem 1.5rem;
       border-radius: 50px;
       animation: glow 2.5s ease-in-out infinite;
       transition: transform 0.15s ease, opacity 0.15s ease;
       letter-spacing: 0.03em;
-      min-height: 60px;
+      min-height: 64px;
     }
 
     .cta-btn:active { transform: scale(0.96); opacity: 0.92; }
@@ -232,9 +236,9 @@
     }
 
     @media (max-width: 380px) {
-      .card-body { padding: 1.75rem 1.1rem; }
+      .card-body { padding: 1.5rem 1rem; }
       .info-grid  { gap: 0.6rem; }
-      .cta-btn    { font-size: 1.3rem; }
+      .info-box   { padding: 0.9rem 0.5rem; }
     }
   </style>
 </head>
@@ -251,7 +255,7 @@
     <div class="card-header">
       <span class="ellie-top">🐘</span>
       <h1>Eleanor Rae Eaglin's<br>College Savings Plan</h1>
-      <p class="tagline">🌟 Elephants never forget to invest in the future! 🌟</p>
+      <p class="tagline">🌟 Saving today for her tomorrow! 🌟</p>
     </div>
 
     <div class="card-body">
@@ -266,7 +270,7 @@
 
       <a
         class="cta-btn"
-        href="https://digital.fidelity.com/prgw/digital/familygifting/giveagift"
+        href="https://digital.fidelity.com/prgw/digital/familygifting/mlgLandingPage?uuid=bb5854a9684b4dc88eaaa46bf961a3f5"
         target="_blank"
         rel="noopener noreferrer"
       >🐘 Give a Gift! 🎁</a>
