@@ -338,7 +338,7 @@
       appearance: none;
       width: 100%;
       height: 8px;
-      background: linear-gradient(to right, #7C3AED var(--pct, 50%), #E5E7EB var(--pct, 50%));
+      background: linear-gradient(to right, #7C3AED var(--pct, 10%), #E5E7EB var(--pct, 10%));
       border-radius: 4px;
       outline: none;
       cursor: pointer;
@@ -548,11 +548,11 @@
 
         <div class="amount-row">
           <span class="dollar-sign">$</span>
-          <input type="number" id="amountInput" min="0" max="99999" step="25" value="500" inputmode="numeric" />
+          <input type="number" id="amountInput" min="0" max="99999" step="25" value="100" inputmode="numeric" />
         </div>
 
         <div class="slider-wrap">
-          <input type="range" id="giftSlider" min="0" max="1000" step="25" value="500" />
+          <input type="range" id="giftSlider" min="0" max="1000" step="25" value="100" />
         </div>
         <div class="slider-labels"><span>$0</span><span>$1,000</span></div>
 
@@ -561,7 +561,7 @@
         <div class="calc-result">
           <div class="result-label">Your gift could grow to</div>
           <div class="result-value" id="resultValue"></div>
-          <div class="result-year">by 2043 🎓</div>
+          <div class="result-year" id="resultYear">by 2043 🎓</div>
         </div>
       </div>
 
@@ -571,7 +571,7 @@
           <span class="icon">📅</span>
           <div class="val">2043</div>
           <div class="lbl">Starting College</div>
-          <div class="sub">17 years away!</div>
+          <div class="sub" id="yearsAway">17 years away!</div>
         </div>
         <div class="info-box">
           <span class="icon">💰</span>
@@ -611,20 +611,26 @@
   <script>
   (function () {
     var RATE = 0.09;
-    var YEARS = 17;
-    var START_YEAR = 2026;
+    var COLLEGE_YEAR = 2043;
+    var START_YEAR = new Date().getFullYear();
+    var YEARS = Math.max(0, COLLEGE_YEAR - START_YEAR);
     var ANIM_MS = 900;
 
     var slider = document.getElementById('giftSlider');
     var amtInput = document.getElementById('amountInput');
     var resultEl = document.getElementById('resultValue');
+    var resultYearEl = document.getElementById('resultYear');
+    var yearsAwayEl = document.getElementById('yearsAway');
     var canvas = document.getElementById('growthChart');
     var ctx = canvas.getContext('2d');
     var overlay = document.getElementById('overlay');
 
+    resultYearEl.textContent = 'by ' + COLLEGE_YEAR + ' 🎓';
+    yearsAwayEl.textContent = YEARS > 0 ? YEARS + ' years away!' : 'Starting now!';
+
     var animFrame = null;
     var animStart = null;
-    var currentPrincipal = 500;
+    var currentPrincipal = 100;
 
     document.getElementById('openNote').addEventListener('click', function () {
       overlay.classList.add('open');
@@ -667,6 +673,16 @@
 
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
+    function makeLabelIdxs() {
+      if (YEARS === 0) return [0];
+      var count = Math.min(5, YEARS + 1);
+      var idxs = [];
+      for (var i = 0; i < count; i++) {
+        idxs.push(Math.round(i * YEARS / (count - 1)));
+      }
+      return idxs;
+    }
+
     function drawChart(data, progress) {
       var dpr = window.devicePixelRatio || 1;
       var W = canvas.offsetWidth;
@@ -681,7 +697,7 @@
       var cH = H - pT - pB;
       var maxVal = data[YEARS];
 
-      function xp(i) { return pL + (i / YEARS) * cW; }
+      function xp(i) { return YEARS === 0 ? pL + cW / 2 : pL + (i / YEARS) * cW; }
       function yp(v) { return maxVal === 0 ? pT + cH : pT + cH - (v / maxVal) * cH * progress; }
 
       ctx.clearRect(0, 0, W, H);
@@ -741,7 +757,7 @@
       ctx.lineJoin = 'round';
       ctx.stroke();
 
-      var labelIdxs = [0, 4, 8, 12, 17];
+      var labelIdxs = makeLabelIdxs();
       ctx.font = 'bold 10px Nunito, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillStyle = '#8B5CF6';
@@ -824,8 +840,8 @@
 
     window.addEventListener('resize', function () { run(currentPrincipal, false); });
 
-    syncSlider(500);
-    run(500, true);
+    syncSlider(100);
+    run(100, true);
   }());
   </script>
 </body>
