@@ -510,7 +510,7 @@
       <div class="popover-body">
         <p>To our family and friends,</p>
         <p>Eleanor Rae is a gift from God, and watching her come into the world filled us with a gratitude we can only describe as holy. Your generosity toward her future is a beautiful expression of that same grace.</p>
-        <p>We are raising Ellie to know that her life is not her own to spend on herself, but a gift to be poured out for others. We pray she grows into a woman of deep faith, genuine humility, and a servant’s heart, one who uses whatever God has placed in her hands to love and serve the people around her.</p>
+        <p>We are raising Ellie to know that her life is not her own to spend on herself, but a gift to be poured out for others. We pray she grows into a woman of deep faith, genuine humility, and a servant's heart, one who uses whatever God has placed in her hands to love and serve the people around her.</p>
         <p>When it comes to her education, we hope to be faithful stewards of every dollar entrusted to us. The school that best prepares her to serve well, to think clearly, to love her neighbor, and to live with integrity matters far more to us than prestige. We will help her find a path that is wise and purposeful, not simply impressive.</p>
         <p>Your gift is an act of faith and generosity. It will not be wasted.</p>
         <p>Thank you for loving her and for walking alongside our family.</p>
@@ -692,7 +692,7 @@
       canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      var pL = 48, pR = 12, pT = 14, pB = 32;
+      var pL = 48, pR = 12, pT = 42, pB = 32;
       var cW = W - pL - pR;
       var cH = H - pT - pB;
       var maxVal = data[YEARS] || 1;
@@ -775,10 +775,12 @@
       ctx.stroke();
 
       if (progress >= 1) {
-        var calloutW = 72;
+        var calloutW = 86;
         var calloutH = 26;
-        var cx2 = Math.min(ep.x + 10, W - pR - calloutW);
+        var cx2 = Math.min(ep.x - calloutW / 2, W - pR - calloutW);
+        cx2 = Math.max(pL, cx2);
         var cy2 = ep.y - calloutH - 10;
+        if (cy2 < 2) cy2 = ep.y + 14;
         ctx.beginPath();
         ctx.roundRect(cx2, cy2, calloutW, calloutH, 6);
         ctx.fillStyle = '#EC4899';
