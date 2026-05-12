@@ -47,6 +47,100 @@
       to  {opacity:1;transform:translateY(0)}
     }
 
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(60, 10, 120, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .popover {
+      background: #fff;
+      border-radius: 28px;
+      padding: 2rem 1.75rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(24px);
+      transition: transform 0.28s cubic-bezier(.22,.68,0,1.2);
+      box-shadow: 0 24px 70px rgba(112,40,220,0.35);
+    }
+
+    .overlay.open .popover {
+      transform: translateY(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.1rem;
+      background: #F5F3FF;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
+      color: #7C3AED;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+
+    .close-btn:active { background: #EDE9FE; }
+
+    .popover-icon {
+      font-size: 2.8rem;
+      text-align: center;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .popover h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      color: #6D28D9;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding-right: 2rem;
+    }
+
+    .popover-body p {
+      font-size: 0.97rem;
+      color: #4C3A7A;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .popover-body p:last-child { margin-bottom: 0; }
+
+    .popover-sig {
+      margin-top: 1.5rem;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.05rem;
+      color: #7C3AED;
+      text-align: right;
+    }
+
     .card {
       background: #fff;
       border-radius: 36px;
@@ -110,7 +204,7 @@
       border: 2px solid #DDD6FE;
       border-radius: 22px;
       padding: 1.25rem 1.5rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1rem;
       text-align: center;
     }
 
@@ -126,6 +220,25 @@
       color: #5B4B8A;
       line-height: 1.65;
     }
+
+    .note-btn {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      display: block;
+      width: 100%;
+      background: transparent;
+      border: 2px solid #C4B5FD;
+      color: #7C3AED;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1rem;
+      padding: 0.85rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .note-btn:active { background: #F5F3FF; }
 
     @keyframes glow {
       0%,100%{box-shadow:0 6px 24px rgba(124,58,237,0.45),0 0 0 0 rgba(124,58,237,0.25)}
@@ -225,7 +338,7 @@
       appearance: none;
       width: 100%;
       height: 8px;
-      background: linear-gradient(to right, #7C3AED var(--pct, 4.75%), #E5E7EB var(--pct, 4.75%));
+      background: linear-gradient(to right, #7C3AED var(--pct, 50%), #E5E7EB var(--pct, 50%));
       border-radius: 4px;
       outline: none;
       cursor: pointer;
@@ -389,6 +502,23 @@
   <div class="sp sp5">🌟</div>
   <div class="sp sp6">🎀</div>
 
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="popoverTitle">
+    <div class="popover">
+      <button class="close-btn" id="closeNote" aria-label="Close">✕</button>
+      <span class="popover-icon">💜</span>
+      <h2 id="popoverTitle">A Note from Mom &amp; Dad</h2>
+      <div class="popover-body">
+        <p>To our family and friends,</p>
+        <p>Watching Eleanor Rae come into the world filled us with a kind of love we did not know was possible. Your generosity in contributing to her future means more to us than we can express.</p>
+        <p>As Ellie grows, we will always encourage her to follow whatever path makes her come alive. Our promise to her is to make that possible.</p>
+        <p>We also want to share how we are thinking about these savings. We believe the value of an education comes from the student, not the institution. Some of the most fulfilling and financially sound paths run through excellent state universities, honors programs, and in-state schools. We plan to help Ellie find a fit that is genuinely right for her and to use every dollar wisely so she enters adulthood unburdened by debt.</p>
+        <p>Your gift, whatever the size, helps us give her real choices. It is an act of love, and she will know it.</p>
+        <p>Thank you for believing in her before she even knows who she is.</p>
+        <p class="popover-sig">With all our love,<br>Mom and Dad 🐘💜</p>
+      </div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-header">
       <span class="ellie-top">🐘</span>
@@ -400,8 +530,10 @@
 
       <div class="thank-box">
         <div class="greeting">Family &amp; Friends! 🎉</div>
-        <p>Gifts to Eleanor Rae Eaglin's 529 account can help reach her education savings goal faster. Thank you so much for your kind generosity — you help build a bright future for Eleanor Rae!</p>
+        <p>Gifts to Eleanor Rae Eaglin's 529 account can help reach her education savings goal faster. Thank you so much for your kind generosity. You help build a bright future for Eleanor Rae!</p>
       </div>
+
+      <button class="note-btn" id="openNote">💌 A note from Mom &amp; Dad</button>
 
       <a
         class="cta-btn"
@@ -416,19 +548,19 @@
 
         <div class="amount-row">
           <span class="dollar-sign">$</span>
-          <input type="number" id="amountInput" min="25" max="99999" step="25" value="500" inputmode="numeric" />
+          <input type="number" id="amountInput" min="0" max="99999" step="25" value="500" inputmode="numeric" />
         </div>
 
         <div class="slider-wrap">
-          <input type="range" id="giftSlider" min="25" max="10000" step="25" value="500" />
+          <input type="range" id="giftSlider" min="0" max="1000" step="25" value="500" />
         </div>
-        <div class="slider-labels"><span>$25</span><span>$10,000</span></div>
+        <div class="slider-labels"><span>$0</span><span>$1,000</span></div>
 
         <canvas id="growthChart"></canvas>
 
         <div class="calc-result">
           <div class="result-label">Your gift could grow to</div>
-          <div class="result-value" id="resultValue">&mdash;</div>
+          <div class="result-value" id="resultValue"></div>
           <div class="result-year">by 2043 🎓</div>
         </div>
       </div>
@@ -452,9 +584,9 @@
       <div class="fun-section">
         <div class="sh">
           <span class="sh-icon">🎓</span>
-          <span class="sh-title">529 Plan — What's Covered?</span>
+          <span class="sh-title">529 Plan: What's Covered?</span>
         </div>
-        <p>Savings can be used for tuition, books, and other education-related expenses — including private and public K&ndash;12 institutions. Every dollar grows tax-free for Ellie's big adventure ahead!</p>
+        <p>Savings can be used for tuition, books, and other education-related expenses, including private and public K&ndash;12 institutions. Every dollar grows tax-free for Ellie's big adventure ahead!</p>
       </div>
 
       <div class="fun-section">
@@ -463,7 +595,7 @@
           <span class="sh-title">Gifting FAQs</span>
         </div>
         <p class="fq">What is an e-check?</p>
-        <p>When gifting by electronic check, Fidelity will ask for your bank routing number, account number, and some authentication info. It's quick, safe, and trunk-ly appreciated! 🐘</p>
+        <p>When gifting by electronic check, Fidelity will ask for your bank routing number, account number, and some authentication info. It's quick and safe! 🐘</p>
       </div>
 
       <p class="note">
@@ -488,10 +620,31 @@
     var resultEl = document.getElementById('resultValue');
     var canvas = document.getElementById('growthChart');
     var ctx = canvas.getContext('2d');
+    var overlay = document.getElementById('overlay');
 
     var animFrame = null;
     var animStart = null;
     var currentPrincipal = 500;
+
+    document.getElementById('openNote').addEventListener('click', function () {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeOverlay() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeNote').addEventListener('click', closeOverlay);
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeOverlay();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeOverlay();
+    });
 
     function fmt(n) {
       return '$' + Math.round(n).toLocaleString();
@@ -529,9 +682,11 @@
       var maxVal = data[YEARS];
 
       function xp(i) { return pL + (i / YEARS) * cW; }
-      function yp(v) { return pT + cH - (v / maxVal) * cH * progress; }
+      function yp(v) { return maxVal === 0 ? pT + cH : pT + cH - (v / maxVal) * cH * progress; }
 
       ctx.clearRect(0, 0, W, H);
+
+      if (maxVal === 0) return;
 
       var ticks = [0.25, 0.5, 0.75, 1];
       ctx.setLineDash([4, 4]);
@@ -637,7 +792,7 @@
     }
 
     function syncSlider(val) {
-      var pct = ((Math.min(val, 10000) - 25) / (10000 - 25)) * 100;
+      var pct = (Math.min(val, 1000) / 1000) * 100;
       slider.style.setProperty('--pct', Math.max(0, pct) + '%');
     }
 
@@ -651,17 +806,17 @@
 
     amtInput.addEventListener('input', function () {
       var v = parseInt(amtInput.value, 10);
-      if (!v || v < 1) return;
-      slider.value = Math.min(v, 10000);
+      if (isNaN(v) || v < 0) return;
+      slider.value = Math.min(v, 1000);
       syncSlider(v);
       currentPrincipal = v;
       run(v, false);
     });
 
     amtInput.addEventListener('blur', function () {
-      var v = Math.max(25, parseInt(amtInput.value, 10) || 25);
+      var v = Math.max(0, parseInt(amtInput.value, 10) || 0);
       amtInput.value = v;
-      slider.value = Math.min(v, 10000);
+      slider.value = Math.min(v, 1000);
       syncSlider(v);
       currentPrincipal = v;
       run(v, false);
