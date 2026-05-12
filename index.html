@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gift for Ellie's Future</title>
+  <title>Eleanor Rae Eaglin's College Savings Plan</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,7 +21,7 @@
       background: rgba(255, 255, 255, 0.92);
       border-radius: 24px;
       box-shadow: 0 8px 40px rgba(180, 100, 50, 0.12);
-      max-width: 520px;
+      max-width: 560px;
       width: 100%;
       padding: 3rem 2.5rem;
       text-align: center;
@@ -34,33 +34,45 @@
     }
 
     h1 {
-      font-size: 2.2rem;
+      font-size: 1.9rem;
       color: #7a3b1e;
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
     }
 
     h1 span { color: #c2622a; }
 
     .subtitle {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: #9a6248;
       margin-bottom: 2rem;
       font-style: italic;
+      line-height: 1.5;
+    }
+
+    .photo {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #f0cbb4;
+      margin: 0 auto 1.5rem;
+      display: block;
+      box-shadow: 0 4px 20px rgba(180, 100, 50, 0.15);
     }
 
     .divider {
       border: none;
       border-top: 1px solid #f0cbb4;
-      margin: 0 auto 2rem;
+      margin: 0 auto 1.75rem;
       width: 60%;
     }
 
-    .description {
-      font-size: 1rem;
+    .thank-you {
+      font-size: 1.05rem;
       color: #6b4534;
       line-height: 1.7;
-      margin-bottom: 2.2rem;
+      margin-bottom: 1.75rem;
     }
 
     .cta-btn {
@@ -69,8 +81,8 @@
       color: #fff;
       text-decoration: none;
       font-family: 'Georgia', serif;
-      font-size: 1.05rem;
-      padding: 0.9rem 2.2rem;
+      font-size: 1.1rem;
+      padding: 0.95rem 2.5rem;
       border-radius: 50px;
       box-shadow: 0 4px 18px rgba(194, 98, 42, 0.35);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -84,42 +96,160 @@
 
     .cta-btn:active { transform: translateY(0); }
 
-    .note {
-      margin-top: 1.8rem;
-      font-size: 0.82rem;
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .info-box {
+      background: #fdf6f0;
+      border: 1px solid #f0cbb4;
+      border-radius: 14px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+    }
+
+    .info-box .label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: #b08070;
-      line-height: 1.5;
+      margin-bottom: 0.4rem;
+    }
+
+    .info-box .value {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #7a3b1e;
+    }
+
+    .info-box .sub {
+      font-size: 0.68rem;
+      color: #9a6248;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.15rem;
+    }
+
+    .info-box .remaining {
+      font-size: 0.78rem;
+      color: #5a9e5a;
+      margin-top: 0.4rem;
+    }
+
+    .section {
+      margin: 1.25rem 0;
+      padding: 1.25rem 1.5rem;
+      background: #fdf6f0;
+      border: 1px solid #f0cbb4;
+      border-radius: 14px;
+      text-align: left;
+    }
+
+    .section .section-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #b08070;
+      margin-bottom: 0.4rem;
+    }
+
+    .section .section-title {
+      font-size: 1.4rem;
+      color: #7a3b1e;
+      margin-bottom: 0.6rem;
+    }
+
+    .section p {
+      font-size: 0.9rem;
+      color: #6b4534;
+      line-height: 1.65;
+    }
+
+    .faq-q {
+      font-size: 0.92rem;
+      font-weight: bold;
+      color: #7a3b1e;
+      margin-bottom: 0.3rem;
+    }
+
+    .note {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #b08070;
+      line-height: 1.6;
     }
 
     .note a { color: #c2622a; text-decoration: none; }
     .note a:hover { text-decoration: underline; }
+
+    @media (max-width: 420px) {
+      .card { padding: 2rem 1.5rem; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="star-row">&#127775; &#128149; &#127775;</div>
-    <h1>Gift for <span>Ellie's</span> Future</h1>
-    <p class="subtitle">Help her dreams grow, one gift at a time.</p>
+    <h1><span>Eleanor Rae Eaglin's</span><br>College Savings Plan</h1>
+    <p class="subtitle">Gifts to Eleanor Rae Eaglin's 529 account can help reach an education savings goal faster.</p>
+
+    <img class="photo" src="ellie.jpg" alt="Eleanor Rae Eaglin" />
+
     <hr class="divider" />
-    <p class="description">
-      Contribute to Ellie's 529 college savings plan through Fidelity's secure
-      gifting portal. Every gift&nbsp;&mdash; big or small&nbsp;&mdash; is an
-      investment in her education and the adventures ahead.
+
+    <p class="thank-you">
+      Thank you so much for your kind generosity.<br>
+      You help build a bright future for Eleanor Rae.
     </p>
+
     <a
       class="cta-btn"
-      href="https://digital.fidelity.com/prgw/digital/familygifting/mlgLandingPage?uuid=bb5854a9684b4dc88eaaa46bf961a3f5"
+      href="https://digital.fidelity.com/prgw/digital/familygifting/giveagift"
       target="_blank"
       rel="noopener noreferrer"
     >
       Give a Gift &rarr;
     </a>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="label">Age &amp; Enrollment Year</div>
+        <div class="value">0 &nbsp;|&nbsp; 2043</div>
+        <div class="sub">Years Old &nbsp;|&nbsp; Starting College</div>
+        <div class="remaining">&#10003; 17 years remaining</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Tax Considerations</div>
+        <div class="value">$19k+</div>
+        <div class="sub">Per Year</div>
+        <div class="remaining" style="color:#9a6248;font-size:0.72rem;">Consult a tax advisor for details.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Education Savings &bull; 529 Plan &bull; Expenses</div>
+      <div class="section-title">529 Plan</div>
+      <p>Savings can be used for tuition, books, and other education-related expenses. Savings may also be used for private, public (K&ndash;12) institutions.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Frequently Asked Questions &bull; Gifting Information</div>
+      <div class="section-title">FAQs</div>
+      <p class="faq-q">What is an e-check?</p>
+      <p>When gifting by electronic check, we ask for your bank routing number and account number as well as authentication information about yourself.</p>
+    </div>
+
     <p class="note">
       Gifts are processed securely by&nbsp;
-      <a href="https://www.fidelity.com" target="_blank" rel="noopener noreferrer">
-        Fidelity Investments
-      </a>.
-      <br />No account required to contribute.
+      <a href="https://www.fidelity.com" target="_blank" rel="noopener noreferrer">Fidelity Investments</a>.
+      No account required to contribute.
+      <br /><br />
+      Please carefully consider the plan's investment objectives, risks, charges and expenses before investing.
+      For this and other information on any 529 College Savings Plan managed by Fidelity, contact Fidelity for a free Fact Kit. Read it carefully before you invest or send money.
     </p>
   </div>
 </body>
