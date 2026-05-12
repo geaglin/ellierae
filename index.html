@@ -671,6 +671,8 @@
       return d;
     }
 
+    var FIXED_MAX = 1000 * Math.pow(1 + RATE, YEARS);
+
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
     function makeLabelIdxs() {
@@ -695,7 +697,7 @@
       var pL = 48, pR = 12, pT = 42, pB = 32;
       var cW = W - pL - pR;
       var cH = H - pT - pB;
-      var maxVal = data[YEARS] || 1;
+      var maxVal = Math.max(FIXED_MAX, data[YEARS]) || 1;
 
       function xp(i) { return YEARS === 0 ? pL + cW / 2 : pL + (i / YEARS) * cW; }
       function yp(v) { return pT + cH - (v / maxVal) * cH * progress; }
