@@ -671,6 +671,8 @@
       return d;
     }
 
+    var FIXED_MAX = 1000 * Math.pow(1 + RATE, YEARS);
+
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
     function makeLabelIdxs() {
@@ -695,7 +697,7 @@
       var pL = 48, pR = 12, pT = 14, pB = 32;
       var cW = W - pL - pR;
       var cH = H - pT - pB;
-      var maxVal = data[YEARS];
+      var maxVal = FIXED_MAX;
 
       function xp(i) { return YEARS === 0 ? pL + cW / 2 : pL + (i / YEARS) * cW; }
       function yp(v) { return maxVal === 0 ? pT + cH : pT + cH - (v / maxVal) * cH * progress; }
@@ -712,7 +714,7 @@
       ctx.fillStyle = '#A78BFA';
       ticks.forEach(function (t) {
         var v = maxVal * t;
-        var y = yp(v);
+        var y = pT + cH - t * cH;
         ctx.beginPath();
         ctx.moveTo(pL, y);
         ctx.lineTo(pL + cW, y);
