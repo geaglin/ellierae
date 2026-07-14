@@ -24,19 +24,29 @@ let animFrame = null;
 let animStart = null;
 let currentPrincipal = 100;
 
-document.getElementById('openNote').addEventListener('click', function () {
+const openNoteBtn = document.getElementById('openNote');
+const closeNoteBtn = document.getElementById('closeNote');
+let lastFocused = null;
+
+openNoteBtn.addEventListener('click', function () {
+  lastFocused = document.activeElement;
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+  closeNoteBtn.focus();
 });
 
 function closeOverlay() {
+  if (!overlay.classList.contains('open')) return;
   overlay.classList.remove('open');
   document.body.style.overflow = '';
+  if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
 }
 
-document.getElementById('closeNote').addEventListener('click', closeOverlay);
+closeNoteBtn.addEventListener('click', closeOverlay);
 overlay.addEventListener('click', function (e) { if (e.target === overlay) closeOverlay(); });
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeOverlay(); });
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function drawChart(data, progress) {
   const dpr = window.devicePixelRatio || 1;
@@ -144,7 +154,7 @@ function run(p, animate) {
   const data = calcData(p, YEARS);
   resultEl.textContent = fmt(data[YEARS]);
   if (animFrame) cancelAnimationFrame(animFrame);
-  if (!animate) { drawChart(data, 1); return; }
+  if (!animate || reduceMotion) { drawChart(data, 1); return; }
   animStart = null;
   animFrame = requestAnimationFrame(function tick(ts) {
     if (!animStart) animStart = ts;
@@ -188,13 +198,13 @@ slider.addEventListener('input', function () {
 });
 
 amtInput.addEventListener('input', function () {
-  const raw = parseInt(amtInput.value, 10);
-  if (isNaN(raw) || raw < 0) return;
-  slider.value = Math.min(raw, SLIDER_MAX);
-  syncSlider(raw);
-  syncPresets(raw);
-  currentPrincipal = raw;
-  run(raw, false);
+  if (amtInput.value === '') return;
+  const v = clampPrincipal(amtInput.value);
+  slider.value = Math.min(v, SLIDER_MAX);
+  syncSlider(v);
+  syncPresets(v);
+  currentPrincipal = v;
+  run(v, false);
 });
 
 amtInput.addEventListener('blur', function () {

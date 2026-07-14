@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'self'" />
   <meta name="referrer" content="no-referrer-when-downgrade" />
+  <meta name="description" content="Help Eleanor Rae Eaglin reach her college savings goal. See how any gift to her 529 could grow by the time she starts college." />
+  <meta name="theme-color" content="#7C3AED" />
+  <link rel="icon" href="/apple-touch-icon.png" type="image/png" />
   <title>🐘 Ellie's Future Fund!</title>
   <meta property="og:title" content="Ellie's Future Fund 🐘" />
   <meta property="og:description" content="Help Eleanor Rae Eaglin reach her college savings goal. Every gift grows over time!" />
@@ -555,6 +558,25 @@
       }
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+      .sp { display: none; }
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     @media (min-width: 720px) {
       body {
         padding: 2.5rem 2rem;
@@ -616,12 +638,12 @@
   </style>
 </head>
 <body>
-  <div class="sp sp1">⭐</div>
-  <div class="sp sp2">🌸</div>
-  <div class="sp sp3">✨</div>
-  <div class="sp sp4">💜</div>
-  <div class="sp sp5">🌟</div>
-  <div class="sp sp6">🎀</div>
+  <div class="sp sp1" aria-hidden="true">⭐</div>
+  <div class="sp sp2" aria-hidden="true">🌸</div>
+  <div class="sp sp3" aria-hidden="true">✨</div>
+  <div class="sp sp4" aria-hidden="true">💜</div>
+  <div class="sp sp5" aria-hidden="true">🌟</div>
+  <div class="sp sp6" aria-hidden="true">🎀</div>
 
   <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="popoverTitle">
     <div class="popover">
@@ -644,7 +666,7 @@
 
   <div class="card">
     <div class="card-header">
-      <span class="ellie-top">🐘</span>
+      <span class="ellie-top" aria-hidden="true">🐘</span>
       <h1>Eleanor Rae Eaglin's<br>College Savings Plan</h1>
       <p class="tagline">🌟 Saving today for her tomorrow! 🌟</p>
     </div>
@@ -669,10 +691,11 @@
       </div>
 
       <div class="calc-section">
-        <div class="calc-heading">📈 See Your Gift Grow</div>
+        <h2 class="calc-heading">📈 See Your Gift Grow</h2>
 
+        <label for="amountInput" class="visually-hidden">Gift amount in US dollars</label>
         <div class="amount-row">
-          <span class="dollar-sign">$</span>
+          <span class="dollar-sign" aria-hidden="true">$</span>
           <input type="number" id="amountInput" min="0" max="99999" step="25" value="100" inputmode="numeric" autocomplete="off" />
         </div>
 
@@ -685,20 +708,21 @@
         </div>
 
         <div class="slider-wrap">
-          <input type="range" id="giftSlider" min="0" max="1000" step="25" value="100" />
+          <label for="giftSlider" class="visually-hidden">Adjust gift amount</label>
+          <input type="range" id="giftSlider" min="0" max="1000" step="25" value="100" aria-label="Adjust gift amount" />
         </div>
         <div class="slider-labels"><span>$0</span><span>$1,000</span></div>
 
-        <canvas id="growthChart"></canvas>
+        <canvas id="growthChart" role="img" aria-label="Chart showing your gift growing over time"></canvas>
 
-        <div class="calc-result">
+        <div class="calc-result" aria-live="polite" aria-atomic="true">
           <div class="result-label">Your gift could grow to</div>
           <div class="result-value" id="resultValue"></div>
           <div class="result-year" id="resultYear">by 2043 🎓</div>
         </div>
       </div>
 
-      <p class="section-heading">📊 Ellie's Savings Snapshot</p>
+      <h2 class="section-heading">📊 Ellie's Savings Snapshot</h2>
       <div class="info-grid">
         <div class="info-box">
           <span class="icon">📅</span>

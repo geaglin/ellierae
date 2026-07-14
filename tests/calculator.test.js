@@ -180,10 +180,16 @@ describe('getYears', () => {
 describe('getYearsAwayText', () => {
   it('includes the count for positive years', () => {
     expect(getYearsAwayText(17)).toBe('17 years away!');
-    expect(getYearsAwayText(1)).toBe('1 years away!');
+    expect(getYearsAwayText(2)).toBe('2 years away!');
+  });
+  it('uses singular for exactly one year', () => {
+    expect(getYearsAwayText(1)).toBe('1 year away!');
   });
   it('returns starting now for zero years', () => {
     expect(getYearsAwayText(0)).toBe('Starting now!');
+  });
+  it('returns starting now for negative years', () => {
+    expect(getYearsAwayText(-3)).toBe('Starting now!');
   });
 });
 
@@ -212,6 +218,10 @@ describe('clampPrincipal', () => {
   it('accepts numeric input', () => {
     expect(clampPrincipal(250)).toBe(250);
     expect(clampPrincipal(0)).toBe(0);
+  });
+  it('caps values at MAX_PRINCIPAL', () => {
+    expect(clampPrincipal('999999')).toBe(99999);
+    expect(clampPrincipal(1000000)).toBe(99999);
   });
 });
 

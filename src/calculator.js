@@ -9,7 +9,6 @@ export function fmt(n) {
 
 export function fmtAxis(n) {
   if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
-  if (n >= 100000)  return '$' + (n / 1000).toFixed(0) + 'k';
   if (n >= 10000)   return '$' + (n / 1000).toFixed(0) + 'k';
   if (n >= 1000)    return '$' + (n / 1000).toFixed(1) + 'k';
   return '$' + Math.round(n);
@@ -43,12 +42,16 @@ export function getYears(collegeYear, startYear) {
 }
 
 export function getYearsAwayText(years) {
-  return years > 0 ? years + ' years away!' : 'Starting now!';
+  if (years <= 0) return 'Starting now!';
+  return years === 1 ? '1 year away!' : years + ' years away!';
 }
+
+export const MAX_PRINCIPAL = 99999;
 
 export function clampPrincipal(val) {
   const n = parseInt(val, 10);
   if (isNaN(n) || n < 0) return 0;
+  if (n > MAX_PRINCIPAL) return MAX_PRINCIPAL;
   return n;
 }
 
